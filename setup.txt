@@ -1,0 +1,3 @@
+1. vscode setting
+2. tsconfig setting
+3. prettier setting

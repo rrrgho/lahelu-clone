@@ -1,0 +1,23 @@
+
+# Node Modules
+node_modules/
+
+# Android and IOS
+android/
+ios/
+
+# Asset
+assets/
+
+# Expo specific files/folders
+.expo/
+web-build/
+
+# Common build output and lockfiles
+dist/
+build/
+*.lock
+
+# Other potential ignores
+*.log
+*.min.*
