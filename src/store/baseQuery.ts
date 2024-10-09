@@ -16,7 +16,9 @@ export const baseQueryWithErrorHandler = async (
 ) => {
 	const result: IApiResponse | any = await baseQuery(args, api, extraOptions);
 	if (result.error) {
-		api.dispatch(apiErrorOccurred('An error occurred, Server Error'));
+		api.dispatch(
+			apiErrorOccurred(`An error occurred ${process.env.EXPO_PUBLIC_API_URL}`),
+		);
 	}
 	return result;
 };

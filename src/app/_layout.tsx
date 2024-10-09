@@ -21,7 +21,7 @@ const App = () => {
 			}
 		}
 
-		// checkForUpdates();
+		checkForUpdates();
 	}, []);
 	return (
 		<Provider store={store}>

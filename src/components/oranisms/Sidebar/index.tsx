@@ -6,7 +6,7 @@ import SidebarSheet from '@/components/moleculs/SidebarSheet';
 import { id } from '@/constants/locales/id';
 import { useSidebarHandler } from '@/hooks/useSidebarHandler';
 import { FC } from 'react';
-import { View } from 'react-native';
+import { ScrollView, View } from 'react-native';
 import { styles } from './style';
 import { ISidebar } from './type';
 
@@ -24,15 +24,18 @@ const Sidebar: FC<ISidebar> = ({ isSidebarVisible, handleCloseSidebar }) => {
 				<CollapsibleLists title={id.explore} items={exploreOptions} />
 				<SelectableMenuList
 					title={id.browse}
-					menuItems={Array.from({ length: 10 }, () => {
+					menuItems={Array.from({ length: 6 }, (x, i) => {
 						return {
+							id: `id-nih-boss${i}`,
 							icon: 'home',
 							label: 'Cringe',
 							onPress: () => {},
 						};
 					})}
 				/>
-				<SidebarFooter />
+				<View>
+					<SidebarFooter />
+				</View>
 			</View>
 		</SidebarSheet>
 	);

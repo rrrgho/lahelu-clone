@@ -60,7 +60,10 @@ const HomeScreen = () => {
 						}) => (
 							<View key={index} style={styles.postItem}>
 								{isLoading ? (
-									<PostLoading />
+									<>
+										<PostLoading />
+										<PostLoading />
+									</>
 								) : (
 									<PostCard
 										shouldPlay={index === currentViewableItemIndex}
@@ -90,7 +93,12 @@ const HomeScreen = () => {
 						onEndReached={handleReload}
 						onEndReachedThreshold={0.01}
 						ListFooterComponent={
-							isFetching || isLoading || fakeFetching ? <PostLoading /> : null
+							isFetching || isLoading || fakeFetching ? (
+								<>
+									<PostLoading />
+									<PostLoading />
+								</>
+							) : null
 						}
 					/>
 				</View>
