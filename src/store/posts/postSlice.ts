@@ -6,12 +6,14 @@ interface PostsState {
 	posts: IPost[];
 	status: 'idle' | 'loading' | 'succeeded' | 'failed';
 	error: string | null;
+	videoShouldPlay: number;
 }
 
 const initialState: PostsState = {
 	posts: [],
 	status: 'idle',
 	error: null,
+	videoShouldPlay: -1,
 };
 
 const postsSlice = createSlice({
@@ -23,6 +25,7 @@ const postsSlice = createSlice({
 		},
 		generateNewPost: (state) => {
 			const newPost: IPost = {
+				uid: 'sdadadad',
 				id: 'test' + new Date(),
 				caption:
 					'Automatic meme generate by clicking Buat Meme, Buat Topik & Meme Generator',
@@ -44,7 +47,16 @@ const postsSlice = createSlice({
 				postsApi.endpoints.fetchPosts.matchFulfilled,
 				(state, action) => {
 					state.status = 'succeeded';
-					state.posts = [...state.posts, ...action.payload];
+					/**
+					 * SAME ID POSSIBILY RETURNED
+					 * to avoid same identifier of the API response behaviour,
+					 * I add UID Generator, this because we possible to return same data in API
+					 */
+					const uniquePosts = action.payload.map((post, index) => ({
+						...post,
+						uid: `${post.id}-${index}-${Math.random().toString(36).substring(2, 15)}`,
+					}));
+					state.posts = [...state.posts, ...uniquePosts];
 				},
 			)
 			.addMatcher(

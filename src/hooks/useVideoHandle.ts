@@ -1,80 +1,124 @@
 import { useRef, useState } from 'react';
-import {
-	Easing,
-	useAnimatedStyle,
-	useSharedValue,
-	withTiming,
-} from 'react-native-reanimated';
+import { Dimensions, ViewStyle } from 'react-native';
+import { useAnimatedStyle, useSharedValue } from 'react-native-reanimated';
+
+interface IVideoDimenssion {
+	height: number;
+	orientation: string;
+	width: number;
+}
+
+interface IVideoStatus {
+	androidImplementation: string;
+	audioPan: number;
+	didJustFinish: boolean;
+	durationMillis: number;
+	isBuffering: boolean;
+	isLoaded: boolean;
+	isLooping: boolean;
+	isMuted: boolean;
+	isPlaying: boolean;
+	playableDurationMillis: number;
+	positionMillis: number;
+	progressUpdateIntervalMillis: number;
+	rate: number;
+	shouldCorrectPitch: boolean;
+	shouldPlay: boolean;
+	uri: string;
+	volume: number;
+}
+
+export interface IVideo {
+	naturalSize: IVideoDimenssion;
+	status: IVideoStatus;
+}
 
 export const useVideoHandle = () => {
-	const [isPaused, setIsPaused] = useState(true);
-	const [isMuted, setIsMuted] = useState(false);
+	const video = useRef<any>(null);
+	const [status, setStatus] = useState<any>({});
 	const [isLoading, setIsLoading] = useState(true);
-	const [videoDimensions, setVideoDimensions] = useState({
-		width: 16,
-		height: 9,
-	});
-	const videoRef = useRef<any>(null);
+	const [videoProperty, setVideoProperty] = useState<IVideo>();
+	const [videoHeight, setVideoHeight] = useState<ViewStyle>();
+	const naturalRatio = 16 / 9;
+	const screenHeight = Dimensions.get('window').width / (16 / 9);
+
+	const [isDragging, setIsDragging] = useState(false);
+	const [initialProgress, setInitialProgress] = useState(0);
 	const progress = useSharedValue(0);
 
-	const handlePlayPause = () => {
-		setIsPaused(!isPaused);
-	};
+	const [isMuted, setIsMuted] = useState(false);
 
 	const handleMute = () => {
-		setIsMuted(!isMuted);
+		setIsMuted((prevIsMuted) => !prevIsMuted);
 	};
 
-	const onProgress = (data: {
-		currentTime: number;
-		seekableDuration: number;
-	}) => {
-		progress.value = withTiming(data.currentTime / data.seekableDuration, {
-			duration: 500,
-			easing: Easing.linear,
-		});
+	const handlePlayPause = () => {
+		if (status.isPlaying) {
+			video.current.pauseAsync();
+		} else {
+			video.current.playAsync();
+		}
 	};
 
-	const onLoadStart = () => {
-		setIsLoading(true);
-	};
-
-	const onLoad = (data: any) => {
+	const handleVideoLoad = () => {
 		setIsLoading(false);
-		setVideoDimensions({
-			width: data.naturalSize.width,
-			height: data.naturalSize.height,
-		});
 	};
 
-	const onEnd = () => {
-		videoRef.current?.seek(0);
-		setIsPaused(true);
+	const handleOnReadyForDisplay = (videoData: IVideo | any) => {
+		if (videoData && videoData.naturalSize) {
+			setVideoProperty(videoData);
+			const videoRatio =
+				videoData.naturalSize.width / videoData.naturalSize.height;
+			setVideoHeight({
+				height: (screenHeight * naturalRatio) / videoRatio,
+			});
+		}
 	};
 
-	const progressStyle = useAnimatedStyle(() => ({
-		width: `${progress.value * 100}%`,
-	}));
+	const handleGestureEvent = (event: any) => {
+		if (isDragging) {
+			const newProgress =
+				initialProgress + event.nativeEvent.translationX / 250;
+			if (newProgress >= 0 && newProgress <= 1) {
+				progress.value = newProgress;
+			}
+		}
+	};
 
-	const aspectRatio = videoDimensions.width / videoDimensions.height;
-	const videoAspectRatio = aspectRatio < 1 ? 1 / 1 : aspectRatio;
+	const handleGestureStateChange = (event: any) => {
+		if (event.nativeEvent.state === 2) {
+			setIsDragging(true);
+			setInitialProgress(progress.value);
+		} else if (event.nativeEvent.state === 5) {
+			setIsDragging(false);
+			const newPositionMillis = progress.value * (status.durationMillis || 0);
+			video.current?.setPositionAsync(newPositionMillis);
+		}
+	};
+
+	const progressStyle = useAnimatedStyle(() => {
+		const progressPercentage = isDragging
+			? progress.value
+			: status.positionMillis / status.durationMillis;
+		return {
+			width: `${progressPercentage * 100}%`,
+		};
+	});
 
 	return {
-		isPaused,
-		setIsPaused,
-		isMuted,
-		setIsMuted,
-		isLoading,
-		setIsLoading,
-		videoRef,
+		video,
+		status,
 		handlePlayPause,
-		handleMute,
-		onProgress,
-		onLoadStart,
-		onLoad,
-		onEnd,
 		progressStyle,
-		aspectRatio,
-		videoAspectRatio,
+		setStatus,
+		isLoading,
+		handleVideoLoad,
+		handleOnReadyForDisplay,
+		videoProperty,
+		videoHeight,
+		handleGestureEvent,
+		handleGestureStateChange,
+		isMuted,
+		handleMute,
 	};
 };

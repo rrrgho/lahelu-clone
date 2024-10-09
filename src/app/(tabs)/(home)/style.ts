@@ -14,7 +14,7 @@ export const styles = StyleSheet.create({
 	tabArea: {
 		position: 'absolute',
 		top: dimensions.headerHeight,
-		zIndex: 9,
+		zIndex: 3,
 	},
 	listItem: {
 		padding: 16,

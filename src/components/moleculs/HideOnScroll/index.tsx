@@ -2,27 +2,22 @@ import React, { FC } from 'react';
 import { Animated } from 'react-native';
 import { IHideOnScroll } from './type';
 
-const HeaderMaxHeight = 120;
+const HeaderMaxHeight = 108;
 const HeaderMinHeight = 60;
-const ScrollDistance = HeaderMaxHeight - HeaderMinHeight;
+const ScrollDistance = 200;
 
 const HideOnScroll: FC<IHideOnScroll> = ({ value, children }) => {
-	const animatedHeaderHeight = value.interpolate({
+	const animatedMarginTop = value.interpolate({
 		inputRange: [0, ScrollDistance],
-		outputRange: [HeaderMaxHeight, HeaderMinHeight],
-		extrapolate: 'clamp',
-	});
-	const animatedHeaderOpacity = value.interpolate({
-		inputRange: [0, ScrollDistance],
-		outputRange: [1, 0],
+		outputRange: [1, -HeaderMinHeight],
 		extrapolate: 'clamp',
 	});
 
 	return (
 		<Animated.View
 			style={{
-				height: animatedHeaderHeight,
-				opacity: animatedHeaderOpacity,
+				height: HeaderMaxHeight,
+				marginTop: animatedMarginTop,
 			}}
 		>
 			{children}

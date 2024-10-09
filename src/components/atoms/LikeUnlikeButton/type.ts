@@ -1,5 +1,5 @@
 export interface ILikeUnlikeButton {
-	initialLikes?: number;
+	initialLikes: number;
 	onLike?: () => void;
 	onUnlike?: () => void;
 }

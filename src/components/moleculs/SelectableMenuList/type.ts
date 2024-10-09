@@ -1,4 +1,5 @@
 export interface ISelectableMenuItem {
+	id: string;
 	icon: string | any;
 	label: string;
 	onPress: () => void;

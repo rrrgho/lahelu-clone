@@ -6,6 +6,7 @@ export const styles = StyleSheet.create({
 	container: {
 		paddingHorizontal: dimensions.paddingHorizontal,
 		paddingVertical: dimensions.paddingVertical,
+		height: 100,
 	},
 	sectionTitle: {
 		fontSize: 16,

@@ -1,9 +1,10 @@
 import { IPost } from '@/constants/type';
-import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
+import { createApi } from '@reduxjs/toolkit/query/react';
+import { baseQueryWithErrorHandler } from '../baseQuery';
 
 export const postsApi = createApi({
 	reducerPath: 'postsApi',
-	baseQuery: fetchBaseQuery({ baseUrl: process.env.EXPO_PUBLIC_API_URL }),
+	baseQuery: baseQueryWithErrorHandler,
 	endpoints: (builder) => ({
 		fetchPosts: builder.query<IPost[], void>({
 			query: () => '/posts',

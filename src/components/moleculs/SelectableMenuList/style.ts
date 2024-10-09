@@ -1,9 +1,12 @@
 import { colors } from '@/constants/colors';
 import { dimensions } from '@/constants/dimensions';
+import { responsiveHeight } from '@/utils';
 import { StyleSheet } from 'react-native';
 
 export const styles = StyleSheet.create({
-	container: {},
+	container: {
+		maxHeight: responsiveHeight(40),
+	},
 	item: {
 		flexDirection: 'row',
 		alignItems: 'center',

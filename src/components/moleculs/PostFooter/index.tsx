@@ -9,7 +9,7 @@ import { FC } from 'react';
 import { IPostFooter } from './type';
 import { id } from '@/constants/locales/id';
 
-const PostFooter: FC<IPostFooter> = ({ onPressComment }) => {
+const PostFooter: FC<IPostFooter> = ({ onPressComment, likes }) => {
 	return (
 		<View style={[defaultStyles.container, styles.container]}>
 			<View style={styles.scrollViewTag}>
@@ -28,7 +28,7 @@ const PostFooter: FC<IPostFooter> = ({ onPressComment }) => {
 			</View>
 			<View style={styles.actionContainer}>
 				<View style={styles.feedBack}>
-					<LikeUnlikeButton />
+					<LikeUnlikeButton initialLikes={likes} />
 					<CommentButton text='15' onPress={onPressComment} />
 				</View>
 				<View>

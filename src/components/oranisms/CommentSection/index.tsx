@@ -35,10 +35,10 @@ const CommentSection: FC<ICommentSection> = ({ post_id }) => {
 			>
 				{!isFetching ? (
 					<>
-						{comments.map((comment: IComment) => {
+						{comments.map((comment: IComment, index: number) => {
 							return (
 								<CommentItem
-									key={comment.id}
+									key={index}
 									like={comment.likes}
 									username={comment.user.name}
 									timestamp='1 day'
@@ -49,7 +49,7 @@ const CommentSection: FC<ICommentSection> = ({ post_id }) => {
 					</>
 				) : (
 					<View>
-						{new Array(13).fill('').map((i) => {
+						{new Array(13).fill('').map((item, i) => {
 							return <CommentLoading key={i} />;
 						})}
 					</View>

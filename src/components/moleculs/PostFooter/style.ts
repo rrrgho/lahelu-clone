@@ -6,6 +6,7 @@ import { StyleSheet } from 'react-native';
 export const styles = StyleSheet.create({
 	container: {
 		paddingVertical: dimensions.paddingVertical,
+		zIndex: -1,
 	},
 	scrollViewTag: {
 		paddingHorizontal: dimensions.paddingHorizontal,
