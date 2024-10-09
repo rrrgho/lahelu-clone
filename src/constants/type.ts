@@ -11,6 +11,7 @@ export interface IUser {
 
 // Interface for each individual post
 export interface IPost {
+	uid: string;
 	id: string;
 	user_id?: string;
 	caption: string;

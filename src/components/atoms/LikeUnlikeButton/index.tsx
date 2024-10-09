@@ -7,7 +7,7 @@ import { ILikeUnlikeButton } from './type';
 import { fontSize } from '@/constants/fonts';
 
 const LikeUnlikeButton: React.FC<ILikeUnlikeButton> = ({
-	initialLikes = 0,
+	initialLikes,
 	onLike,
 	onUnlike,
 }) => {

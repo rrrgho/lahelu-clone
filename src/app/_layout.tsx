@@ -1,10 +1,12 @@
-import { store } from '@/store';
+import FloatingAlert from '@/components/moleculs/FloatingAlert';
+import { RootState, store } from '@/store';
 import { Stack } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
-import { useEffect } from 'react';
-import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
-import { Provider } from 'react-redux';
 import * as Updates from 'expo-updates';
+import { useEffect } from 'react';
+import { GestureHandlerRootView } from 'react-native-gesture-handler';
+import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
+import { Provider, useSelector } from 'react-redux';
 const App = () => {
 	useEffect(() => {
 		async function checkForUpdates() {
@@ -19,13 +21,15 @@ const App = () => {
 			}
 		}
 
-		checkForUpdates();
+		// checkForUpdates();
 	}, []);
 	return (
 		<Provider store={store}>
 			<SafeAreaProvider>
 				<SafeAreaView style={{ flex: 1 }}>
-					<RootNavigation />
+					<GestureHandlerRootView style={{ flex: 1 }}>
+						<RootNavigation />
+					</GestureHandlerRootView>
 					<StatusBar style='auto' />
 				</SafeAreaView>
 			</SafeAreaProvider>
@@ -34,10 +38,19 @@ const App = () => {
 };
 
 const RootNavigation = () => {
+	const errorApi = useSelector((state: RootState) => state.errorApi);
 	return (
-		<Stack>
-			<Stack.Screen name='(tabs)' options={{ headerShown: false }} />
-		</Stack>
+		<>
+			{errorApi.status && (
+				<FloatingAlert
+					title='Error !'
+					description={errorApi.errorMessage ?? 'An error occured'}
+				/>
+			)}
+			<Stack>
+				<Stack.Screen name='(tabs)' options={{ headerShown: false }} />
+			</Stack>
+		</>
 	);
 };
 

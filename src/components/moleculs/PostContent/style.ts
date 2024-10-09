@@ -1,13 +1,12 @@
-import { StyleSheet } from 'react-native';
-import { responsiveHeight } from '@/utils';
-import { fontSize } from '@/constants/fonts';
-import { dimensions } from '@/constants/dimensions';
 import { colors } from '@/constants/colors';
+import { dimensions } from '@/constants/dimensions';
+import { fontSize } from '@/constants/fonts';
+import { responsiveHeight } from '@/utils';
+import { StyleSheet } from 'react-native';
 
 export const styles = StyleSheet.create({
 	container: {
 		flex: 1,
-		maxHeight: responsiveHeight(60),
 		backgroundColor: '#888',
 	},
 	captionContainer: {
@@ -20,64 +19,99 @@ export const styles = StyleSheet.create({
 		fontWeight: 'bold',
 		color: '#666',
 	},
-	video: {
-		width: '100%',
+	loadingIndicator: {
+		position: 'absolute',
+		top: 0,
+		left: 0,
+		right: 0,
+		bottom: 0,
+		alignItems: 'center',
+		justifyContent: 'center',
 	},
 	image: {
 		width: '100%',
 		height: '100%',
 	},
-	controlsContainer: {
-		position: 'absolute',
-		top: 0,
-		left: 0,
-		right: 0,
-		bottom: 0,
+	videoContainer: {
+		maxHeight: responsiveHeight(65),
+		backgroundColor: colors.borderLight,
 		justifyContent: 'center',
 		alignItems: 'center',
 		alignContent: 'center',
 	},
-	playPauseButton: {},
-	progressBar: {
-		height: 5,
-		backgroundColor: 'rgba(0, 0, 0, 0.5)',
-		borderRadius: 2.5,
-		position: 'absolute',
-		bottom: 0,
-		left: 0,
-		right: 0,
-	},
-	progressFill: {
+	video: {
+		width: '100%',
 		height: '100%',
-		backgroundColor: colors.primary,
-		borderRadius: 2.5,
+	},
+	videoControllContainer: {
+		height: '100%',
+		width: '100%',
+		position: 'absolute',
+		top: 0,
+		backgroundColor: 'transparent',
+	},
+	playPauseContainer: {
+		flex: 1,
+		flexDirection: 'row',
+		alignItems: 'center',
+		justifyContent: 'center',
+	},
+	playPauseButton: {
+		// No specific styles needed here
 	},
 	playPauseBackground: {
-		backgroundColor: 'rgba(0, 0, 0, 0.5)',
+		backgroundColor: 'rgba(0,0,0, 0.3)',
 		borderRadius: 100,
-		width: 65,
-		height: 65,
-		justifyContent: 'center',
+		width: 70,
+		height: 70,
 		alignItems: 'center',
+		justifyContent: 'center',
 	},
+
+	progressBarContainer: {
+		height: 30,
+		justifyContent: 'flex-end',
+	},
+	progressBar: {
+		height: 5,
+		backgroundColor: colors.gray,
+	},
+	progressFill: {
+		height: 3,
+		backgroundColor: colors.primary,
+	},
+
 	muteButton: {
 		position: 'absolute',
 		bottom: 30,
 		right: 20,
-		backgroundColor: 'rgba(0, 0, 0, 0.5)',
-		borderRadius: 100,
 		width: 30,
 		height: 30,
+		backgroundColor: 'rgba(0, 0, 0, 0.5)',
+		borderRadius: 100,
+		zIndex: 9,
 		justifyContent: 'center',
 		alignItems: 'center',
 	},
-	loadingContainer: {
+	imageContainer: {
+		maxHeight: responsiveHeight(65),
+		zIndex: 9999,
+	},
+
+	box: {
+		width: 100,
+		height: 100,
+		borderRadius: 20,
+		backgroundColor: '#b58df1',
+	},
+	dot: {
+		width: 24,
+		height: 24,
+		borderRadius: 12,
+		backgroundColor: '#ccc',
 		position: 'absolute',
-		top: 0,
-		left: 0,
-		right: 0,
-		bottom: 0,
-		justifyContent: 'center',
-		alignItems: 'center',
+		left: '50%',
+		top: '50%',
+		pointerEvents: 'none',
 	},
 });
