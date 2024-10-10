@@ -77,8 +77,10 @@ export const styles = StyleSheet.create({
 		backgroundColor: colors.gray,
 	},
 	progressFill: {
-		height: 3,
+		height: 5,
 		backgroundColor: colors.primary,
+		borderTopRightRadius: dimensions.radius,
+		borderBottomRightRadius: dimensions.radius,
 	},
 
 	muteButton: {
@@ -88,7 +90,7 @@ export const styles = StyleSheet.create({
 		width: 30,
 		height: 30,
 		backgroundColor: 'rgba(0, 0, 0, 0.5)',
-		borderRadius: 100,
+		borderRadius: dimensions.rounded,
 		zIndex: 9,
 		justifyContent: 'center',
 		alignItems: 'center',
@@ -97,21 +99,16 @@ export const styles = StyleSheet.create({
 		maxHeight: responsiveHeight(65),
 		zIndex: 9999,
 	},
-
-	box: {
-		width: 100,
-		height: 100,
-		borderRadius: 20,
-		backgroundColor: '#b58df1',
-	},
-	dot: {
-		width: 24,
-		height: 24,
-		borderRadius: 12,
-		backgroundColor: '#ccc',
+	timeContainer: {
 		position: 'absolute',
-		left: '50%',
-		top: '50%',
-		pointerEvents: 'none',
+		top: -30,
+		backgroundColor: colors.background,
+		paddingHorizontal: 8,
+		paddingVertical: 4,
+		borderRadius: 4,
+	},
+	timeText: {
+		color: colors.text,
+		fontSize: 12,
 	},
 });

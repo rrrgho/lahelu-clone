@@ -13,6 +13,7 @@ import { styles } from './style';
 import { PostContentProps } from './type';
 
 import { useMotionHandler } from '@/hooks/useMotionHandler';
+import { formatTime } from '@/utils';
 
 const PostContent: React.FC<PostContentProps> = ({
 	videoUri,
@@ -20,6 +21,9 @@ const PostContent: React.FC<PostContentProps> = ({
 	caption,
 	shouldPlay,
 }) => {
+	/**
+	 * Calling video handler hooks
+	 */
 	const {
 		video,
 		status,
@@ -35,10 +39,22 @@ const PostContent: React.FC<PostContentProps> = ({
 		handleGestureStateChange,
 		isMuted,
 		handleMute,
+		currentTime,
+		isDragging,
+		sliderPosition,
 	} = useVideoHandle();
 
+	/**
+	 * Calling Motion Handler to controll
+	 * Video or image motion ehaviour
+	 */
 	const { pinch, animatedStyles } = useMotionHandler();
 
+	/**
+	 * This Mount Cycle
+	 * handles the video autoplay and
+	 * autopause.
+	 */
 	useEffect(() => {
 		if (videoUri) {
 			if (!video.current) return;
@@ -122,6 +138,19 @@ const PostContent: React.FC<PostContentProps> = ({
 									>
 										<View style={styles.progressBarContainer}>
 											<View style={styles.progressBar}>
+												{isDragging && (
+													<View
+														style={[
+															styles.timeContainer,
+															{ left: `${sliderPosition}%` },
+														]}
+													>
+														<Text style={styles.timeText}>
+															{formatTime(currentTime)} /{' '}
+															{formatTime(status.durationMillis / 1000)}
+														</Text>
+													</View>
+												)}
 												<Animated.View
 													style={[styles.progressFill, progressStyle]}
 												/>
